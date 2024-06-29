@@ -1,6 +1,3 @@
-### admin account  
-id : admin12  
-pw : 1q2w3e!  
 
 
 ### err code

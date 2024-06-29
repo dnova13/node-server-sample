@@ -5,6 +5,31 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
+    addHyphenToPhone: function () {
+        // Get the phone number value without any hyphens
+        let phone = this.form.phone.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+
+        if (phone.length < 4) {
+            this.form.phone = phone;
+        } else if (phone.length < 7) {
+            this.form.phone = phone.slice(0, 3) + '-' + phone.slice(3);
+        } else if (phone.length < 12) {
+            this.form.phone = phone.slice(0, 3) + '-' + phone.slice(3, 7) + '-' + phone.slice(7);
+        } else if (phone.length < 14) {
+            this.form.phone = phone.slice(0, 4) + '-' + phone.slice(4, 8) + '-' + phone.slice(8, 12);
+        }
+    },
+    addHyphenToBirthday: function () {
+        let birthday = this.form.birthday.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+
+        if (birthday.length <= 4) {
+            this.form.birthday = birthday;
+        } else if (birthday.length <= 7) {
+            this.form.birthday = birthday.slice(0, 4) + '-' + birthday.slice(4);
+        } else if (birthday.length <= 10) {
+            this.form.birthday = birthday.slice(0, 4) + '-' + birthday.slice(4, 6) + '-' + birthday.slice(6);
+        }
+    },
     hasKey: function (_object, key) {
         if (_object.hasOwnProperty) {
             return _object.hasOwnProperty(key);
