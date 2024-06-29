@@ -247,6 +247,7 @@ module.exports = {
         }
         return crypto.createHash('sha256').update(plainText).digest('hex');
     },
+    // AES 벡터 iv 없는 버전, 암호화 시 패턴이 단순하다는 단점
     encryptAES_ECB: (plaintext, secretKey) => {
         const algorithm = 'aes-128-ecb';
 
@@ -265,6 +266,7 @@ module.exports = {
 
         return decrypted;
     },
+    // AES 벡터 iv 있는 버전, 암호화 시 iv 덕분에 같은 글자라도 암호문자가 달라짐
     encryptAES_CBC: (plaintext, secretKey, ivHex) => {
         const algorithm = 'aes-128-cbc';
 
