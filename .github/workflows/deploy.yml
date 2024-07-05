@@ -1,0 +1,15 @@
+name: Deploy FullStackApp
+on:
+    push:
+        branches:
+            - master
+jobs:
+    build:
+        runs-on: ubuntu-latest # 테스트할 리눅스,
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v3 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
+
+            - name: code test
+              run: docker compose up
+              run: docker exec -it backend npm run test

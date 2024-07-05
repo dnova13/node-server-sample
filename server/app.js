@@ -88,7 +88,7 @@ function main(port = 3000) {
     });
 
     global.db = _db(dbPool);
-    _log.info('# load db success');
+    // _log.info('# load db success');
 
     global.jwt = _jwt(process.env.JWT_SECRET);
     _log.info('# load jwt success');
