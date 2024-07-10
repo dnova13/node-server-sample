@@ -10,10 +10,22 @@ jobs:
             - name: checkout code
               uses: actions/checkout@v4 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
 
-            # - name: code test
-            #   run: |
-            #       npm install
-            #       npm run server-test
+            - name: code test
+              run: |
+                  npm install
+                  npm run server-test
+
+            - name: docker test
+              env:
+                  DB_HOST: ${{ secrets.DB_HOST }}
+                  DB_NAME: ${{ secrets.DB_NAME }}
+                  DB_USER: ${{ secrets.DB_USER }}
+                  DB_PASS: ${{ secrets.DB_PASS }}
+                  DB_PORT: ${{ secrets.DB_PORT }}
+                  DB_POOL: ${{ secrets.DB_POOL }}
+              run: |
+                  docker compose up -d
+                  docker exec -it backend npm run api-test
 
             - name: SSH and deploy
               uses: appleboy/ssh-action@master
@@ -42,5 +54,5 @@ jobs:
                       rm -rf $TEMP_DIR
                         
                       # Docker Compose로 애플리케이션 빌드 및 실행
-                      cd ~/project/node-server-sample
+                  #   cd ~/project/node-server-sample
                   #   sudo docker compose up -d
