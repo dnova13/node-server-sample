@@ -30,17 +30,17 @@ jobs:
               run: |
                   cat .env  # .env 파일 내용 확인
 
-            # - name: docker test
-            #   #   env:
-            #   #       DB_HOST: ${{ secrets.DB_HOST }}
-            #   #       DB_NAME: ${{ secrets.DB_NAME }}
-            #   #       DB_USER: ${{ secrets.DB_USER }}
-            #   #       DB_PASS: ${{ secrets.DB_PASS }}
-            #   #       DB_PORT: ${{ secrets.DB_PORT }}
-            #   #       DB_POOL: ${{ secrets.DB_POOL }}
-            #   run: |
-            #       docker compose up -d
-            #       docker exec -it backend npm run api-test
+            - name: docker test
+              #   env:
+              #       DB_HOST: ${{ secrets.DB_HOST }}
+              #       DB_NAME: ${{ secrets.DB_NAME }}
+              #       DB_USER: ${{ secrets.DB_USER }}
+              #       DB_PASS: ${{ secrets.DB_PASS }}
+              #       DB_PORT: ${{ secrets.DB_PORT }}
+              #       DB_POOL: ${{ secrets.DB_POOL }}
+              run: |
+                  docker compose up -d
+                  docker exec -it backend npm run api-test
 
             # - name: SSH and deploy
             #   uses: appleboy/ssh-action@master
