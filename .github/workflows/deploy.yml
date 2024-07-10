@@ -34,8 +34,8 @@ jobs:
                       git clone https://dnova13:${{ vars.GIT_ACCESS_KEY }}@github.com/dnova13/node-server-sample
 
                       # 본 프로젝트 디렉토리로 rsync
-                      rsync -av --delete node-server-sample ~/node-server-sample
-                      # rsync -av --delete .node-server-sample ~/node-server-sample
+                      rsync -av --delete node-server-sample --exclude='.env' ~/project/node-server-sample
+                      # rsync -av --delete node-server-sample ~/project/node-server-sample
                         
                       # 임시 폴더 삭제
                       cd ..
