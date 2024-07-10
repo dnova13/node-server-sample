@@ -43,4 +43,4 @@ jobs:
                         
                       # Docker Compose로 애플리케이션 빌드 및 실행
                       cd ~/project/node-server-sample
-                      sudo docker compose up -d
+                  #   sudo docker compose up -d
