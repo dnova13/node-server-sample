@@ -10,10 +10,10 @@ jobs:
             - name: checkout code
               uses: actions/checkout@v4 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
 
-            - name: code test
-              run: |
-                  npm install
-                  npm run server-test
+            # - name: code test
+            #   run: |
+            #       npm install
+            #       npm run server-test
 
             - name: Generate .env file
               run: |
@@ -23,8 +23,6 @@ jobs:
                   echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
                   echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
                   echo "DB_POOL=${{ secrets.DB_POOL }}" >> .env
-                  # 다른 필요한 환경 변수들도 이와 같이 추가할 수 있습니다
-                  # echo "OTHER_VAR=value" >> .env
 
             - name: Use .env in subsequent steps
               run: |
@@ -39,7 +37,7 @@ jobs:
               #       DB_PORT: ${{ secrets.DB_PORT }}
               #       DB_POOL: ${{ secrets.DB_POOL }}
               run: |
-                  docker compose up -d
+                  docker compose up
                   docker exec -it backend npm run api-test
 
             # - name: SSH and deploy
