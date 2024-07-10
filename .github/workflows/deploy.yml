@@ -30,4 +30,4 @@ jobs:
                       cd $TEMP_DIR
 
                       # 레포지토리 클론
-                      git clone https://github.com/username/repository.git .
+                      git clone https://github.com/dnova13/node-server-sample
