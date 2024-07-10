@@ -23,11 +23,12 @@ jobs:
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   port: 22
                   script: |
+
+                      # 파일 복사
+                      sudo mkdir ~/a
+
                       # 임시 폴더 생성
                       TEMP_DIR=$(mktemp -d)
 
                       # 임시 폴더로 이동
                       cd $TEMP_DIR
-
-                      # 레포지토리 클론
-                      git clone https://github.com/dnova13/node-server-sample
