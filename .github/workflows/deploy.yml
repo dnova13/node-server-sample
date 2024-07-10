@@ -1,16 +1,33 @@
-name: Deploy FullStackApp
+name: CI/CD Pipeline
 on:
     push:
         branches:
             - master
 jobs:
-    build:
+    depoly:
         runs-on: ubuntu-latest # 테스트할 리눅스,
         steps:
             - name: checkout code
-              uses: actions/checkout@v3 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
+              uses: actions/checkout@v4 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
 
             - name: code test
               run: |
-                  docker compose up
-                  docker exec -it backend npm run test
+                  npm install
+                  npm run server-test
+
+            - name: SSH and deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SERVER_IP }}
+                  username: ${{ secrets.SERVER_USERNAME }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  port: 22
+                  script: |
+                      # 임시 폴더 생성
+                      TEMP_DIR=$(mktemp -d)
+
+                      # 임시 폴더로 이동
+                      cd $TEMP_DIR
+
+                      # 레포지토리 클론
+                      git clone https://github.com/username/repository.git .

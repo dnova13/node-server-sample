@@ -28,8 +28,6 @@ services:
         ports:
             - '80:80'
             - '3010:3010'
-        depends_on:
-            - mediaserver # MariaDB가 시작된 후에 backend 시작
         networks:
             - platform-network
     mariadb:

@@ -8,7 +8,8 @@
         "dev": "nodemon --exec babel-node server/init.js --delay 3",
         "dev-server": "babel-node server/init.js",
         "start": "node build/init.js",
-        "test": "mocha --require @babel/register test/deploy_test.js"
+        "api-test": "mocha --require @babel/register test/api_test.js",
+        "server-test": "mocha --require @babel/register test/server_test.js"
     },
     "author": "",
     "license": "ISC",
