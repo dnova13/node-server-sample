@@ -42,4 +42,5 @@ jobs:
                       rm -rf $TEMP_DIR
                         
                       # Docker Compose로 애플리케이션 빌드 및 실행
-                      #   cd /path/to/your/app
+                      cd ~/project/node-server-sample
+                      sudo docker compose up -d
