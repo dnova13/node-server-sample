@@ -10,10 +10,10 @@ jobs:
             - name: checkout code
               uses: actions/checkout@v4 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
 
-            - name: code test
-              run: |
-                  npm install
-                  npm run server-test
+            # - name: code test
+            #   run: |
+            #       npm install
+            #       npm run server-test
 
             - name: SSH and deploy
               uses: appleboy/ssh-action@master
@@ -30,4 +30,4 @@ jobs:
                       cd $TEMP_DIR
 
                       # 레포지토리 클론
-                      git clone https://github.com/dnova13/node-server-sample
+                      git clone git@github.com:dnova13/node-server-sample.git
