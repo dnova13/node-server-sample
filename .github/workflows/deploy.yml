@@ -32,3 +32,13 @@ jobs:
                       # 레포지토리 클론
                       # git clone https://사용자명:${{ secrets.GITHUB_TOKEN }}@github.com/dnova13/node-server-sample
                       git clone https://dnova13:${{ vars.GIT_ACCESS_KEY }}@github.com/dnova13/node-server-sample
+
+                      # 본 프로젝트 디렉토리로 rsync
+                      rsync -av --delete . ~/
+                        
+                      # 임시 폴더 삭제
+                      cd ..
+                      rm -rf $TEMP_DIR
+                        
+                      # Docker Compose로 애플리케이션 빌드 및 실행
+                      #   cd /path/to/your/app
