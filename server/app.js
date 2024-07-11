@@ -77,16 +77,6 @@ function main(port = 3000) {
     const fcm = require(__base + '/commons/fcm');
     global._fcm = new fcm();
 
-    console.log({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        port: process.env.DB_PORT,
-        database: process.env.DB_NAME,
-        connectionLimit: process.env.DB_POOL,
-        dateStrings: 'date',
-    });
-
     const dbPool = mysql.createPool({
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
