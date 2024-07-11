@@ -36,6 +36,7 @@ jobs:
                   DB_PASS: ${{ vars.DB_PASS }}
                   DB_PORT: ${{ vars.DB_PORT }}
                   DB_POOL: ${{ vars.DB_POOL }}
+                  TIME_ZONE: ${{ vars.TIME_ZONE }}
               run: |
                   docker compose up -d
                   # GitHub Actions는 대개 TTY를 필요로 하지 않으므로, -it 는 뺀다
