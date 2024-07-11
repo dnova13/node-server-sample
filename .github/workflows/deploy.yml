@@ -40,6 +40,8 @@ jobs:
               run: |
                   docker compose up -d
                   # GitHub Actions는 대개 TTY를 필요로 하지 않으므로, -it 는 뺀다
+                  docker ps
+                  docker logs mariadb
                   docker exec backend npm run api-test
 
             # - name: SSH and deploy
