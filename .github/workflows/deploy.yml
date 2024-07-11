@@ -29,6 +29,13 @@ jobs:
                   cat .env  # .env 파일 내용 확인
 
             - name: docker test
+              env:
+                  DB_HOST: ${{ vars.DB_HOST }}
+                  DB_NAME: ${{ vars.DB_NAME }}
+                  DB_USER: ${{ vars.DB_USER }}
+                  DB_PASS: ${{ vars.DB_PASS }}
+                  DB_PORT: ${{ vars.DB_PORT }}
+                  DB_POOL: ${{ vars.DB_POOL }}
               run: |
                   docker compose up -d
                   # GitHub Actions는 대개 TTY를 필요로 하지 않으므로, -it 는 뺀다
