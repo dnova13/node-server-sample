@@ -17,56 +17,50 @@ jobs:
 
             - name: Generate .env file
               run: |
-                  echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-                  echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-                  echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-                  echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
-                  echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-                  echo "DB_POOL=${{ secrets.DB_POOL }}" >> .env
+                  echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
+                  echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
+                  echo "DB_USER=${{ vars.DB_USER }}" >> .env
+                  echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
+                  echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
+                  echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
 
             - name: Use .env in subsequent steps
               run: |
                   cat .env  # .env 파일 내용 확인
 
             - name: docker test
-              #   env:
-              #       DB_HOST: ${{ secrets.DB_HOST }}
-              #       DB_NAME: ${{ secrets.DB_NAME }}
-              #       DB_USER: ${{ secrets.DB_USER }}
-              #       DB_PASS: ${{ secrets.DB_PASS }}
-              #       DB_PORT: ${{ secrets.DB_PORT }}
-              #       DB_POOL: ${{ secrets.DB_POOL }}
               run: |
                   docker compose up -d
+                  # GitHub Actions는 대개 TTY를 필요로 하지 않으므로, -it 는 뺀다
                   docker exec backend npm run api-test
 
-            - name: SSH and deploy
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.SERVER_IP }}
-                  username: ${{ secrets.SERVER_USERNAME }}
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  port: 22
-                  script: |
-                      # 임시 폴더 생성
-                      TEMP_DIR=$(mktemp -d)
+            # - name: SSH and deploy
+            #   uses: appleboy/ssh-action@master
+            #   with:
+            #       host: ${{ secrets.SERVER_IP }}
+            #       username: ${{ secrets.SERVER_USERNAME }}
+            #       key: ${{ secrets.SSH_PRIVATE_KEY }}
+            #       port: 22
+            #       script: |
+            #           # 임시 폴더 생성
+            #           TEMP_DIR=$(mktemp -d)
 
-                      # 임시 폴더로 이동
-                      cd $TEMP_DIR
+            #           # 임시 폴더로 이동
+            #           cd $TEMP_DIR
 
-                      # 레포지토리 클론 private 시
-                      # git clone https://사용자명:${{ secrets.GITHUB_TOKEN }}@github.com/dnova13/node-server-sample
-                      git clone https://dnova13:${{ vars.GIT_ACCESS_KEY }}@github.com/dnova13/node-server-sample
+            #           # 레포지토리 클론 private 시
+            #           # git clone https://사용자명:${{ secrets.GITHUB_TOKEN }}@github.com/dnova13/node-server-sample
+            #           git clone https://dnova13:${{ vars.GIT_ACCESS_KEY }}@github.com/dnova13/node-server-sample
 
-                      # 본 프로젝트 디렉토리로 rsync
-                      rsync -av --delete node-server-sample/ --exclude='.env' ~/project/node-server-sample
-                      # rsync -av --delete node-server-sample ~/project/node-server-sample
+            #           # 본 프로젝트 디렉토리로 rsync
+            #           rsync -av --delete node-server-sample/ --exclude='.env' ~/project/node-server-sample
+            #           # rsync -av --delete node-server-sample ~/project/node-server-sample
 
-                      # 임시 폴더 삭제
-                      cd ..
-                      rm -rf $TEMP_DIR
+            #           # 임시 폴더 삭제
+            #           cd ..
+            #           rm -rf $TEMP_DIR
 
-                      # Docker Compose로 애플리케이션 빌드 및 실행
-                      cd ~/project/node-server-sample
-                      sudo docker compose up -d --build
-                      sudo docker system prune -af
+            #           # Docker Compose로 애플리케이션 빌드 및 실행
+            #           cd ~/project/node-server-sample
+            #           sudo docker compose up -d --build
+            #           sudo docker system prune -af
