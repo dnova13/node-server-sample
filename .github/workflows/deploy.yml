@@ -37,7 +37,7 @@ jobs:
               #       DB_PORT: ${{ secrets.DB_PORT }}
               #       DB_POOL: ${{ secrets.DB_POOL }}
               run: |
-                  docker compose up
+                  docker compose up -d
                   docker exec backend npm run api-test
 
             - name: SSH and deploy
