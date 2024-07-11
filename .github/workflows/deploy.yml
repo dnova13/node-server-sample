@@ -17,13 +17,14 @@ jobs:
 
             - name: Generate .env file
               run: |
-                  echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
-                  echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
-                  echo "DB_USER=${{ vars.DB_USER }}" >> .env
-                  echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
-                  echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
-                  echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
-                  echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
+                  #   echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
+                    echo "DB_HOST=localhost" >> .env
+                    echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
+                    echo "DB_USER=${{ vars.DB_USER }}" >> .env
+                    echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
+                    echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
+                    echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
+                    echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
 
             - name: Use .env in subsequent steps
               run: |
@@ -32,10 +33,12 @@ jobs:
             - name: docker test
               run: |
                   docker compose up -d --build
-                  docker logs mariadb
-                  docker ps 
-                  docker exec mariadb mariadb -u root -p1234
-                  docker exec mariadb mariadb -u root -p1234 -D video-platform
+                  npm i
+                  npm run api-test
+              #   docker logs mariadb
+              #   docker ps
+              #   docker exec mariadb mariadb -u root -p1234
+              #   docker exec mariadb mariadb -u root -p1234 -D video-platform
               #   docker exec backend npm run server-test
               #   docker exec backend npm run api-test
 
