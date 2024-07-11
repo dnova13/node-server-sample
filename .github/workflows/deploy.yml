@@ -15,7 +15,7 @@ jobs:
                   echo "DB_HOST=localhost" >> .env
                   echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
                   echo "DB_USER=${{ vars.DB_USER }}" >> .env
-                  echo "DB_PASS=${{ vars.DB_PASS }}1" >> .env
+                  echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
                   echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
                   echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
                   echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
