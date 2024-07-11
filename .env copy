@@ -54,10 +54,3 @@ FCM_FIREBASE_URL="{firebase url}"
 
 # aws chk
 # IS_AWS = true
-
-# aws_s3_key
-AWS_ID = "AKIATM46VGNOZOI4ATXZ"
-AWS_SECRET = "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"
-AWS_BUCKET = "haba-bucket"
-AWS_S3_URL = "https://haba-bucket.s3.ap-northeast-2.amazonaws.com"
-AWS_HLS_URL = "https://d1wvoc3e5q0exh.cloudfront.net"
