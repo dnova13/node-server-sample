@@ -15,29 +15,29 @@ jobs:
             #       npm install
             #       npm run server-test
 
-            - name: Generate .env file
-              run: |
-                  echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
-                  echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
-                  echo "DB_USER=${{ vars.DB_USER }}" >> .env
-                  echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
-                  echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
-                  echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
-                  echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
+            # - name: Generate .env file
+            #   run: |
+            #       echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
+            #       echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
+            #       echo "DB_USER=${{ vars.DB_USER }}" >> .env
+            #       echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
+            #       echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
+            #       echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
+            #       echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
 
-            - name: Use .env in subsequent steps
-              run: |
-                  cat .env  # .env 파일 내용 확인
+            # - name: Use .env in subsequent steps
+            #   run: |
+            #       cat .env  # .env 파일 내용 확인
 
             - name: docker test
-              env:
-                  DB_HOST: ${{ vars.DB_HOST }}
-                  DB_NAME: ${{ vars.DB_NAME }}
-                  DB_USER: ${{ vars.DB_USER }}
-                  DB_PASS: ${{ vars.DB_PASS }}
-                  DB_PORT: ${{ vars.DB_PORT }}
-                  DB_POOL: ${{ vars.DB_POOL }}
-                  TIME_ZONE: ${{ vars.TIME_ZONE }}
+              #   env:
+              #       DB_HOST: ${{ vars.DB_HOST }}
+              #       DB_NAME: ${{ vars.DB_NAME }}
+              #       DB_USER: ${{ vars.DB_USER }}
+              #       DB_PASS: ${{ vars.DB_PASS }}
+              #       DB_PORT: ${{ vars.DB_PORT }}
+              #       DB_POOL: ${{ vars.DB_POOL }}
+              #       TIME_ZONE: ${{ vars.TIME_ZONE }}
               run: |
                   docker compose up -d --build
                   # GitHub Actions는 대개 TTY를 필요로 하지 않으므로, -it 는 뺀다

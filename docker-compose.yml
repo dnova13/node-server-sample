@@ -45,14 +45,10 @@ services:
             - ./mariadb/sqls/:/docker-entrypoint-initdb.d/
         # 환경 변수 셋팅시에는 `-` 는 생략한다.
         environment:
-            MARIADB_DATABASE: 'video-platform'
-            MARIADB_USER: 'root'
-            MARIADB_ROOT_PASSWORD: '1234'
-            TZ: 'Asia/Seoul'
-            # MARIADB_DATABASE: ${DB_NAME}
-            # MARIADB_USER: ${DB_USER}
-            # MARIADB_ROOT_PASSWORD: ${DB_PASS}
-            # TZ: ${TIME_ZONE}
+            MARIADB_DATABASE: ${DB_NAME}
+            MARIADB_USER: ${DB_USER}
+            MARIADB_ROOT_PASSWORD: ${DB_PASS}
+            TZ: ${TIME_ZONE}
         networks:
             - platform-network
 networks:
