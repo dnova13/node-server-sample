@@ -39,7 +39,7 @@ jobs:
                   DB_POOL: ${{ vars.DB_POOL }}
                   TIME_ZONE: ${{ vars.TIME_ZONE }}
               run: |
-                  docker compose up -d
+                  docker compose up -d --build
                   # GitHub Actions는 대개 TTY를 필요로 하지 않으므로, -it 는 뺀다
                   docker ps
                   docker logs mariadb
