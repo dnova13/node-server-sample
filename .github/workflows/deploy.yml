@@ -33,6 +33,7 @@ jobs:
               run: |
                   docker compose up -d --build
                   docker exec backend npm run server-test
+                  docker exec mariadb mariadb -u root -p1234
               #   docker exec backend npm run api-test
 
             # - name: SSH and deploy
