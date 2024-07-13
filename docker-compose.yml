@@ -28,6 +28,8 @@ services:
         ports:
             - '80:80'
             - '3010:3010'
+        depends_on:
+            - backend # MariaDB가 시작된 후에 backend 시작
         networks:
             - platform-network
     mariadb:
@@ -38,8 +40,10 @@ services:
         container_name: mariadb
         # 최대 메모리양 설정 : 128m : 적은양 간단한 작업식 적절
         mem_limit: 128m
-        ports:
-            - '3306:3306'
+        # ports:
+        #     - '3306:3306'
+        expose:
+            - '3306'
         volumes:
             - ./mariadb/maria_data:/var/lib/mysql
             - ./mariadb/sqls/:/docker-entrypoint-initdb.d/
