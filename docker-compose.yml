@@ -6,12 +6,13 @@ services:
             dockerfile: Dockerfile
         container_name: backend
         mem_limit: 256m
+        restart: on-failur
         # ports:
         #     - '63100:3010'
         volumes:
             - ./uploads:/app/project/uploads
-        depends_on:
-            - mariadb # MariaDB가 시작된 후에 backend 시작
+        # depends_on:
+        #     - mariadb # MariaDB가 시작된 후에 backend 시작
         networks:
             - platform-network
     webserver:
@@ -28,15 +29,15 @@ services:
         ports:
             - '80:80'
             - '3010:3010'
-        depends_on:
-            - backend # MariaDB가 시작된 후에 backend 시작
+        # depends_on:
+        #     - backend # MariaDB가 시작된 후에 backend 시작
         networks:
             - platform-network
     mariadb:
         build:
             context: ./mariadb
             dockerfile: Dockerfile
-        restart: unless-stopped # 컨테이너가 중지되지 않은 경우에만 재시작합니다.
+        restart: unless-stopped # 사용자가 명시적으로 컨테이너를 중지할 때까지 컨테이너를 재시작
         container_name: mariadb
         # 최대 메모리양 설정 : 128m : 적은양 간단한 작업식 적절
         mem_limit: 128m
