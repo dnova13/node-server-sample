@@ -11,8 +11,8 @@ services:
         #     - '63100:3010'
         volumes:
             - ./uploads:/app/project/uploads
-        # depends_on:
-        #     - mariadb # MariaDB가 시작된 후에 backend 시작
+        depends_on:
+            - mariadb # MariaDB가 시작된 후에 backend 시작
         networks:
             - platform-network
     webserver:

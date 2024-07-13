@@ -78,7 +78,6 @@ jobs:
                       # Docker Compose로 애플리케이션 빌드 및 실행
                       cd ~/project/node-server-sample
 
-
                       # sudo docker compose up -d --build
 
                       # 무중단 서비스를 위한 백업 도커(ngixn, backend) 실행
@@ -86,13 +85,12 @@ jobs:
                       sudo docker stop webserver && \ 
                       sudo docker compose -f docker-compose-backup.yml up -d webserver-backup
 
-                      # 백업 backend 서버 실행 테스트 
-
+                      # 도커 테스트 부분(선택적)
 
                       # 실 백엔드 서버 리빌드
                       sudo docker compose up backend -d --build
 
-                      # 백업 도커 중단 및 
+                      # 백업 도커 중단 
                       sudo docker compose -f docker-compose-backup.yml down 
 
                       # 기존 webser 재실행
