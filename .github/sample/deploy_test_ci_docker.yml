@@ -34,5 +34,12 @@ jobs:
             # docker build test 및 서버 코드 test
             - name: docker build and node test
               run: |
+                  # docker build
                   docker compose up -d --build
-                  docker exec backend npm run server-test
+
+                  # comopse 후 도커 실행환경이 구성되기 위해서 딜레이를 줌.
+                  sleep 30
+
+                  # docker node test
+                  docker exec backend cat .env
+                  docker exec backend npm run api-test
