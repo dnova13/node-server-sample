@@ -4,7 +4,7 @@ on:
         branches:
             - master
 jobs:
-    build-and-test:
+    depoly:
         runs-on: ubuntu-latest # 테스트할 리눅스,
         steps:
             - name: checkout code
@@ -34,7 +34,7 @@ jobs:
             #   run: |
             #       docker compose up -d --build
             #       docker exec backend npm run server-test
-            - name: docker build and node test
+            - name: docker test
               run: |
                   docker build -t mariadb ./mariadb
                   docker run -d \
@@ -48,11 +48,7 @@ jobs:
 
                   npm install
                   npm run api-test
-    deploy:
-        # needs: build-and-test
-        runs-on: ubuntu-latest
-        timeout-minutes: 40
-        steps:
+
             - name: SSH and deploy
               uses: appleboy/ssh-action@master
               with:
