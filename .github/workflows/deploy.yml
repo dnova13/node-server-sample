@@ -102,4 +102,4 @@ jobs:
                       sudo docker compose up -d --build webserver
 
                       # 도커 캐시 제거
-                      sudo docker system prune -af
+                      # sudo docker system prune -af
