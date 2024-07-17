@@ -6,7 +6,7 @@ services:
             dockerfile: Dockerfile
         container_name: backend
         mem_limit: 256m
-        restart: on-failure
+        restart: on-failure1
         # ports:
         #     - '63100:3010'
         volumes:

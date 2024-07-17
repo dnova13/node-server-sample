@@ -26,14 +26,18 @@ jobs:
                     echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
                     echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
 
-            - name: Use .env in subsequent steps
-              run: |
-                  cat .env  # .env 파일 내용 확인
+            # 보안상 생략
+            # - name: Use .env in subsequent steps
+            #   run: |
+            #       cat .env  # .env 파일 내용 확인
 
+            # docker build test 및 서버 코드 test
             - name: docker build and node test
               run: |
                   docker compose up -d --build
                   docker exec backend npm run server-test
+
+            #  테스트 간략화
             # - name: docker build and node test
             #   run: |
             #       docker build -t mariadb ./mariadb
