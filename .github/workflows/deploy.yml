@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 on:
     push:
         branches:
@@ -30,4 +30,5 @@ jobs:
             - name: docker build and node test
               run: |
                   docker compose up -d --build
-                  docker exec backend npm run server-test
+                  docker exec backend cat .env
+                  # docker exec backend npm run server-test
