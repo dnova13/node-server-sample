@@ -48,9 +48,6 @@ jobs:
 
                   npm install
                   npm run api-test
-            - name: docker push
-              run: |
-                  docker push dnova13/node-server-sample:latest
     deploy:
         needs: build-and-test
         runs-on: ubuntu-latest
