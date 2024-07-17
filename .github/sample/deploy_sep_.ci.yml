@@ -1,0 +1,50 @@
+name: CI Pipeline
+on:
+    push:
+        branches:
+            - master
+jobs:
+    depoly:
+        runs-on: ubuntu-latest # 테스트할 리눅스,
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v4 # 최신 버전의 체크아웃 액션으로, 리포지토리의 코드를 워크플로우 실행 환경
+
+            # - name: code test
+            #   run: |
+            #       npm install
+            #       npm run server-test
+
+            - name: Generate .env file
+              run: |
+                  #   echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
+                    echo "DB_HOST=localhost" >> .env
+                    echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
+                    echo "DB_USER=${{ vars.DB_USER }}" >> .env
+                    echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
+                    echo "DB_PORT=${{ vars.DB_PORT }}" >> .env
+                    echo "DB_POOL=${{ vars.DB_POOL }}" >> .env
+                    echo "TIME_ZONE=${{ vars.TIME_ZONE }}" >> .env
+
+            - name: Use .env in subsequent steps
+              run: |
+                  cat .env  # .env 파일 내용 확인
+
+            # - name: docker test
+            #   run: |
+            #       docker compose up -d --build
+            #       docker exec backend npm run server-test
+            - name: docker build and node test
+              run: |
+                  docker build -t mariadb ./mariadb
+                  docker run -d \
+                    -p 3306:3306 \
+                    -v $(pwd)/mariadb/maria_data:/var/lib/mysql \
+                    -v $(pwd)/mariadb/sqls/:/docker-entrypoint-initdb.d/ \
+                    -e MARIADB_DATABASE=${{vars.DB_NAME}} \
+                    -e MARIADB_USER=${{vars.DB_USER}} \
+                    -e MARIADB_ROOT_PASSWORD=${{vars.DB_PASS}} \
+                    mariadb
+
+                  npm install
+                  npm run api-test

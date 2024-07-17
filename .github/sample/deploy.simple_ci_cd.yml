@@ -34,7 +34,7 @@ jobs:
             #   run: |
             #       docker compose up -d --build
             #       docker exec backend npm run server-test
-            - name: docker test
+            - name: docker build and node test
               run: |
                   docker build -t mariadb ./mariadb
                   docker run -d \
