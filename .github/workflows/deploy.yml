@@ -48,9 +48,9 @@ jobs:
 
                   npm install
                   npm run api-test
-            # - name: docker push
-            #   run: |
-            #       docker push dnova13/node-server-sample:latest
+            - name: docker push
+              run: |
+                  docker push dnova13/node-server-sample:latest
     deploy:
         needs: build-and-test
         runs-on: ubuntu-latest
@@ -101,7 +101,7 @@ jobs:
                       # 백업 도커 중단
                       sudo docker compose -f docker-compose-backup.yml down
 
-                      # 기존 webser 재실행
+                      # 기존 webserver 재실행
                       sudo docker compose up -d --build webserver
 
                       # 도커 캐시 제거
