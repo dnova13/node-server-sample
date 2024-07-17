@@ -30,6 +30,6 @@ jobs:
             - name: docker build and node test
               run: |
                   docker compose up -d --build
-                  sleep 30
+                  # sleep 30
                   docker exec backend cat .env
                   docker exec backend npm run api-test
