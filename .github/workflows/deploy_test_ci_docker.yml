@@ -47,12 +47,10 @@ jobs:
             - name: docker push
               run: |
 
-                  docker login -u ${{ vars.DOCKER_ID }} - ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  # docker hub registry  login
+                  docker login registry-1.docker.io  -u ${{ vars.DOCKER_ID }} - ${{ vars.DOCKER_ACCESS_TOKEN }}
 
                   echo "docker push #############################"
-                  # docker push  docker push ${{ vars.DOCKER_USERNAME }}/backend
-                  # docker push  docker push ${{ vars.DOCKER_USERNAME }}/webserver
-                  # docker push  docker push ${{ vars.DOCKER_USERNAME }}/backend
-
-                  # docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
-                  # docker push ${{ vars.DOCKER_USERNAME }}/backend:${{ github.sha }}
+                  docker push  docker push ${{ vars.DOCKER_ID }}/backend
+                  docker push  docker push ${{ vars.DOCKER_ID }}/webserver
+                  docker push  docker push ${{ vars.DOCKER_ID }}/backend
