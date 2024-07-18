@@ -46,6 +46,10 @@ jobs:
                         --network=platform-network \
                         ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
 
+                      echo "checke backend-backup"
+                      sudo docker ps
+
+
                       # webserver-backup 실행  
                       sudo docker run -d \
                         --name webserver-backup \
@@ -56,6 +60,9 @@ jobs:
                         -p 3010:3010 \
                         --network=platform-network \
                         ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup
+
+                       echo "checke webserver-backup"
+                       sudo docker ps
 
                         sudo docker run -d \
                         --name mariadb \
