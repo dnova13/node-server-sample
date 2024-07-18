@@ -42,16 +42,17 @@ jobs:
                   # docker node test
                   docker exec backend npm run api-test
 
-              # docker hub registry login
+            # docker hub registry login 다른 방법
             # - name: Login to Docker Hub
             #   uses: docker/login-action@v3
             #   with:
-            #       # registry: registry-1.docker.io #docker hub registry
+            #       # registry: registry-1.docker.io
             #       username: ${{ vars.DOCKER_ID }}
-            #       password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+            #       password: ${{ vars.DOCKER_ACCESS_TOKEN }}
 
             - name: docker push
               run: |
+                  # 여기서는 도커 허브 레지스트리가 안되므로 registry-1.docker.io 그냥 생략해서 쓰면 도커허브로 연결됨.
                   # docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
                   docker login -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
 
