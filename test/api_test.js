@@ -21,13 +21,17 @@ describe('code test', function () {
 
     after(() => {
         if (server) {
-            // console.log(server);
             server.close();
         }
 
         if (dbPool) {
             dbPool.end();
         }
+
+        // 계속 테스트가 안꺼지고 지속될시 5분후 강제 종료
+        setTimeout(function () {
+            process.exit(1);
+        }, 300 * SEC);
 
         console.info('서버가 종료되었습니다.');
     });
