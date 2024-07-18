@@ -6,6 +6,7 @@ on:
             - completed
 jobs:
     depoly:
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest # 테스트할 리눅스,
         steps:
             - name: SSH and deploy
