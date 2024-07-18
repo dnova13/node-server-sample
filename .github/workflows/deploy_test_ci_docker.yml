@@ -43,3 +43,16 @@ jobs:
                   # docker node test
                   docker exec backend cat .env
                   docker exec backend npm run api-test
+
+            - name: docker push
+              run: |
+
+                  docker login -u ${{ vars.DOCKER_ID }} - ${{ vars.DOCKER_ACCESS_TOKEN }}
+
+                  echo "docker push #############################"
+                  # docker push  docker push ${{ vars.DOCKER_USERNAME }}/backend
+                  # docker push  docker push ${{ vars.DOCKER_USERNAME }}/webserver
+                  # docker push  docker push ${{ vars.DOCKER_USERNAME }}/backend
+
+                  # docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
+                  # docker push ${{ vars.DOCKER_USERNAME }}/backend:${{ github.sha }}

@@ -4,7 +4,7 @@ on:
         branches:
             - master
 jobs:
-    depoly:
+    build-and-test:
         runs-on: ubuntu-latest # 테스트할 리눅스,
         steps:
             - name: checkout code
@@ -18,7 +18,7 @@ jobs:
             - name: Generate .env file
               run: |
                   #   echo "DB_HOST=${{ vars.DB_HOST }}" >> .env
-                    echo "DB_HOST=localhost" >> .env
+                    echo "DB_HOST=mariadb" >> .env
                     echo "DB_NAME=${{ vars.DB_NAME }}" >> .env
                     echo "DB_USER=${{ vars.DB_USER }}" >> .env
                     echo "DB_PASS=${{ vars.DB_PASS }}" >> .env
@@ -34,21 +34,12 @@ jobs:
             # docker build test 및 서버 코드 test
             - name: docker build and node test
               run: |
+                  # docker build
                   docker compose up -d --build
-                  docker exec backend npm run server-test
 
-            #  테스트 간략화
-            # - name: docker build and node test
-            #   run: |
-            #       docker build -t mariadb ./mariadb
-            #       docker run -d \
-            #         -p 3306:3306 \
-            #         -v $(pwd)/mariadb/maria_data:/var/lib/mysql \
-            #         -v $(pwd)/mariadb/sqls/:/docker-entrypoint-initdb.d/ \
-            #         -e MARIADB_DATABASE=${{vars.DB_NAME}} \
-            #         -e MARIADB_USER=${{vars.DB_USER}} \
-            #         -e MARIADB_ROOT_PASSWORD=${{vars.DB_PASS}} \
-            #         mariadb
+                  # comopse 후 도커 실행환경이 구성되기 위해서 딜레이를 줌.
+                  sleep 30
 
-            #       npm install
-            #       npm run api-test
+                  # docker node test
+                  docker exec backend cat .env
+                  docker exec backend npm run api-test
