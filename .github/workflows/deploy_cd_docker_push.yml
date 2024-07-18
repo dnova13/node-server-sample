@@ -36,15 +36,17 @@ jobs:
                         sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup:latest
                         sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb:latest
 
+
                       # backend-back 실행
                       sudo docker run -d \
                         --name backend-backup \
                         --memory=256m \
                         --restart=on-failure \
-                        -v $(pwd)/uploads:/app/project/uploads:ro \ 
+                        -v $(pwd)/uploads:/app/project/uploads:ro \
                         -v $(pwd)/.env:/app/project/.env:ro \
                         --network=platform-network \
                         ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
+                        
 
                       echo "checke backend-backup"
                       sudo docker ps
@@ -79,7 +81,7 @@ jobs:
                         -e TZ=${{ vars.TIME_ZONE }} \
                         --expose=3306 \
                         --network=platform-network \
-                        mariadb:latest  
+                        ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb
 
 
                       # 실 백엔드 서버 리빌드  
