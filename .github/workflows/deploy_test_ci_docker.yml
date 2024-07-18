@@ -65,7 +65,7 @@ jobs:
 
                   docker tag $PROJECT_NAME-backend ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend:latest
                   docker tag $PROJECT_NAME-webserver ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver:latest
-                  docker tag $PROJECT_NAME-backend ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend:latest
+                  docker tag $PROJECT_NAME-mariadb ${{ vars.DOCKER_ID }}/$PROJECT_NAME-mariadb:latest
 
 
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
