@@ -41,14 +41,15 @@ jobs:
                         --name backend-backup \
                         --memory=256m \
                         --restart=on-failure \
-                        -v $(pwd)/uploads:/app/project/uploads \ 
-                        -v $(pwd)/.enf:/app/project/.env \
+                        -v $(pwd)/uploads:/app/project/uploads:ro \ 
+                        -v $(pwd)/.env:/app/project/.env:ro \
                         --network=platform-network \
                         ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
 
                       echo "checke backend-backup"
                       sudo docker ps
 
+                      sudo docker rm -f webserver
 
                       # webserver-backup 실행  
                       sudo docker run -d \
