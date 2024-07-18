@@ -31,10 +31,10 @@ jobs:
                       # Docker Compose로 애플리케이션 빌드 및 실행
                       cd ~/project/${{ vars.PROJECT_NAME }}
 
-                        #   sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend:latest
-                        #   sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver:latest
-                        #   sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup:latest
-                        #   sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb:latest
+                        sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend:latest
+                        sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver:latest
+                        sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup:latest
+                        sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb:latest
 
                       # backend-back 실행
                       sudo docker run -d \
