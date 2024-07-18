@@ -57,6 +57,10 @@ jobs:
 
                   docker images
 
+                  docker tag ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend:latest
+                  docker tag ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver:latest
+                  docker tag ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend:latest
+
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
