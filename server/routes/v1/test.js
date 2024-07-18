@@ -105,7 +105,7 @@ router.get('/sample', async (req, res) => {
     out['data'] = {
         success: true,
         message: 'success',
-        item: result['rows'].maps((obj) => {
+        item: result['rows'].map((obj) => {
             delete obj.phone;
             delete obj.name;
             delete obj.address;
