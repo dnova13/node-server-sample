@@ -108,6 +108,9 @@ router.get('/sample', async (req, res) => {
         item: result['rows'].map((obj) => {
             delete obj.phone;
             delete obj.name;
+            delete obj.birth;
+            delete obj.email;
+            delete obj.gender;
             delete obj.address;
             delete obj.phone;
             delete obj.fcm_token;
