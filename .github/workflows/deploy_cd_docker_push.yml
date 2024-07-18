@@ -1,13 +1,13 @@
 name: CD Pipeline
-on:
-    push:
-        branches:
-            - master
 # on:
-#     workflow_run:
-#         workflows: ['CI Pipeline']
-#         types:
-#             - completed
+#     push:
+#         branches:
+#             - master
+on:
+    workflow_run:
+        workflows: ['CI Pipeline']
+        types:
+            - completed
 jobs:
     depoly:
         # if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -80,8 +80,9 @@ jobs:
                         ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb
 
 
-                      # 실 백엔드 서버 리빌드  
-                      sudo docker rm -f ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
+                      # 실 백엔드 서버 리빌드 
+                      echo "--------------------- backend rebuild ---------------------------" 
+                      sudo docker rm -f backend
                       sudo docker run -d \
                         --name backend \
                         --memory=256m \
