@@ -1,11 +1,16 @@
 name: CD Pipeline
 on:
-    workflow_run:
-        workflows: ['CI Pipeline']
-        types:
-            - completed
+    push:
+        branches:
+            - master
+# on:
+#     workflow_run:
+#         workflows: ['CI Pipeline']
+#         types:
+#             - completed
 jobs:
     depoly:
+        # if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest # 테스트할 리눅스,
         steps:
             - name: SSH and deploy
@@ -15,45 +20,93 @@ jobs:
                   username: ${{ secrets.SERVER_USERNAME }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
                   port: 22
+                  command_timeout: 20m
                   script: |
-                      # 임시 폴더 생성
-                      TEMP_DIR=$(mktemp -d)
 
-                      # 임시 폴더로 이동
-                      cd $TEMP_DIR
+                      # 도커 허브 로그인
+                      docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
 
-                      # 레포지토리 클론 private 시
-                      # git clone https://사용자명:${{ secrets.GITHUB_TOKEN }}@github.com/dnova13/node-server-sample
-                      git clone https://dnova13:${{ vars.GIT_ACCESS_KEY }}@github.com/dnova13/node-server-sample
-
-                      # 본 프로젝트 디렉토리로 rsync
-                      rsync -av --delete node-server-sample/ --exclude='.env' ~/project/node-server-sample
-                      # rsync -av --delete node-server-sample ~/project/node-server-sample
-
-                      # 임시 폴더 삭제
-                      cd ..
-                      rm -rf $TEMP_DIR
+                      mkdir ~/project/${{ vars.PROJECT_NAME }}
 
                       # Docker Compose로 애플리케이션 빌드 및 실행
-                      cd ~/project/node-server-sample
+                      cd ~/project/${{ vars.PROJECT_NAME }}
 
-                      # sudo docker compose up -d --build
+                      sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend:latest
+                      sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver:latest
+                      sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup:latest
+                      sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb:latest
 
-                      # 무중단 서비스를 위한 백업 도커(ngixn, backend) 실행
-                      sudo docker compose -f docker-compose-backup.yml up -d --build backend-backup && \ 
-                      sudo docker stop webserver && \ 
-                      sudo docker compose -f docker-compose-backup.yml up -d webserver-backup
+                      # 도커 이미지 조회
+                      sudo doeker images  
 
-                      # 도커 테스트 부분(선택적)
+                      # backend-backup 실행
+                      sudo docker run -d \
+                        --name backend-backup \
+                        --memory=256m \
+                        --restart=on-failure \
+                        -v $(pwd)/uploads:/app/project/uploads:ro \
+                        -v $(pwd)/.env:/app/project/.env:ro \
+                        --network=platform-network \
+                        ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
+                        
 
-                      # 실 백엔드 서버 리빌드
-                      sudo docker compose up backend -d --build
+                      # 기존 webserver 중단
+                      sudo docker rm -f webserver
 
-                      # 백업 도커 중단 
-                      sudo docker compose -f docker-compose-backup.yml down 
+                      # webserver-backup 실행  
+                      sudo docker run -d \
+                        --name webserver-backup \
+                        --memory=256m \
+                        --restart=always \
+                        -v $(pwd)/nginx_webserver/default_backup.conf:/etc/nginx/conf.d/default.conf \
+                        -p 80:80 \
+                        -p 3010:3010 \
+                        --network=platform-network \
+                        ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup
 
-                      # 기존 webser 재실행
-                      sudo docker compose up -d --build webserver
+                       # mariadb 실행
+                        sudo docker run -d \
+                        --name mariadb \
+                        --memory=128m \
+                        --restart=unless-stopped \
+                        -v $(pwd)/mariadb/maria_data:/var/lib/mysql \
+                        -v $(pwd)/mariadb/sqls/:/docker-entrypoint-initdb.d/ \
+                        -e MARIADB_DATABASE=${{ vars.DB_NAME }} \
+                        -e MARIADB_USER=${{ vars.DB_USER}} \
+                        -e MARIADB_ROOT_PASSWORD=${{ vars.DB_PASS}} \
+                        -e TZ=${{ vars.TIME_ZONE }} \
+                        --expose=3306 \
+                        --network=platform-network \
+                        ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb
+
+
+                      # 실 백엔드 서버 리빌드  
+                      sudo docker rm -f ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
+                      sudo docker run -d \
+                        --name backend \
+                        --memory=256m \
+                        --restart=on-failure \
+                        -v $(pwd)/uploads:/app/project/uploads \
+                        -v $(pwd)/.env:/app/project/.env \
+                        --network=platform-network \
+                        ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
+
+                      # 백업 컨테이너 중단
+                      sudo docker rm -f backend-backup
+                      sudo docker rm -f webserver-backup   
+
+                      # 기존 webserver 재실행
+                      sudo docker run -d \
+                        --name webserver \
+                        --memory=256m \
+                        --restart=always \
+                        -v $(pwd)/nginx_webserver/default.conf:/etc/nginx/conf.d/default.conf \
+                        -v $(pwd)/nginx_webserver/logs:/var/log/nginx \
+                        -p 80:80 \
+                        -p 3010:3010 \
+                        --network=platform-network \
+                        ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver
+
 
                       # 도커 캐시 제거
                       sudo docker system prune -af
