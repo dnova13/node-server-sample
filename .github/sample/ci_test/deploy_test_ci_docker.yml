@@ -30,6 +30,7 @@ jobs:
             # - name: Use .env in subsequent steps
             #   run: |
             #       cat .env  # .env 파일 내용 확인
+
             # docker build test 및 서버 코드 test
             - name: docker build and node test
               run: |
@@ -40,35 +41,5 @@ jobs:
                   sleep 30
 
                   # docker node test
+                  # docker exec backend cat .env
                   docker exec backend npm run api-test
-
-              # docker hub registry login
-              # - name: Login to Docker Hub
-              #   uses: docker/login-action@v3
-              #   with:
-              #       # registry: registry-1.docker.io #docker hub registry
-              #       username: ${{ vars.DOCKER_ID }}
-              #       password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
-            - name: docker push
-              run: |
-                  # docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
-                  docker login -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
-
-                  REPO_NAME=${{ github.repository }}
-                  PROJECT_NAME=${REPO_NAME##*/}
-                  echo "The project name is $PROJECT_NAME"
-
-                  docker images
-
-                  docker build -t ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver-backup ./nginx_webserver
-
-                  docker tag $PROJECT_NAME-backend ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend:latest
-                  docker tag $PROJECT_NAME-webserver ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver:latest
-                  docker tag $PROJECT_NAME-mariadb ${{ vars.DOCKER_ID }}/$PROJECT_NAME-mariadb:latest
-
-
-                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
-                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver
-                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver-backup
-                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-mariadb
