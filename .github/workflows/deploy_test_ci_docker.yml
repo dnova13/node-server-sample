@@ -47,11 +47,10 @@ jobs:
             - name: docker push
               run: |
 
-                  # docker hub registry  login
-                  docker login --help
-                  docker login -u ${{ vars.DOCKER_ID }} - ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  # docker hub registry 
+                  docker login registry-1.docker.io  -u ${{ vars.DOCKER_ID }} --password ${{ vars.DOCKER_ACCESS_TOKEN }}
 
                   echo "docker push #############################"
-                  docker push  docker push ${{ vars.DOCKER_ID }}/backend
-                  docker push  docker push ${{ vars.DOCKER_ID }}/webserver
-                  docker push  docker push ${{ vars.DOCKER_ID }}/backend
+                  docker push ${{ vars.DOCKER_ID }}/backend
+                  docker push ${{ vars.DOCKER_ID }}/webserver
+                  docker push ${{ vars.DOCKER_ID }}/backend
