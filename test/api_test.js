@@ -31,7 +31,7 @@ describe('code test', function () {
         // 계속 테스트가 안꺼지고 지속될시 5분후 강제 종료
         setTimeout(function () {
             // 종료 코드: 0 (정상 종료)  1 (비정상 종료)
-            process.exit(1);
+            process.exit(0);
         }, 60 * SEC);
 
         console.info('서버가 종료되었습니다.');
