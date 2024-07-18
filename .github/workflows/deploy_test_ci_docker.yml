@@ -52,7 +52,8 @@ jobs:
 
             - name: docker push
               run: |
-                  docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  # docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  docker login -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
 
                   REPO_NAME=${{ github.repository }}
                   PROJECT_NAME=${REPO_NAME##*/}
