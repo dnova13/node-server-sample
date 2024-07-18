@@ -36,6 +36,7 @@ jobs:
                         sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup:latest
                         sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb:latest
 
+                      sudo doeker images
 
                       # backend-back 실행
                       sudo docker run -d \
@@ -91,13 +92,13 @@ jobs:
                         --memory=256m \
                         --restart=on-failure \
                         -v $(pwd)/uploads:/app/project/uploads \
-                        -v $(pwd)/.enf:/app/project/.env \
+                        -v $(pwd)/.env:/app/project/.env \
                         --network=platform-network \
                         ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend
 
                       # 백업 컨테이너 중단
-                      sudo docker rm -f ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-backend-backup
-                      sudo docker rm -f ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-webserver-backup   
+                      sudo docker rm -f backend-backup
+                      sudo docker rm -f webserver-backup   
 
 
                       # 기존 webserver 재실행
