@@ -4,6 +4,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+        # image: my_custom_image_name:latest
         container_name: backend
         mem_limit: 256m
         restart: on-failure

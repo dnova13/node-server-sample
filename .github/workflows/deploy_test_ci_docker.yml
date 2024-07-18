@@ -48,9 +48,11 @@ jobs:
               run: |
 
                   # docker hub registry  login
-                  docker login registry-1.docker.io  -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
+
+                  cat ${{ github.repository }}
 
                   echo "docker push #############################"
-                  docker push ${{ vars.DOCKER_ID }}/backend
-                  docker push ${{ vars.DOCKER_ID }}/webserver
-                  docker push ${{ vars.DOCKER_ID }}/backend
+                  docker push ${{ vars.DOCKER_ID }}/${{ github.repository }}-backend
+                  docker push ${{ vars.DOCKER_ID }}/${{ github.repository }}-webserver
+                  docker push ${{ vars.DOCKER_ID }}/${{ github.repository }}-backend
