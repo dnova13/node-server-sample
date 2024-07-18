@@ -51,8 +51,11 @@ jobs:
                   docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
 
                   cat ${{ github.repository }}
+                  REPO_NAME=${{ github.repository }}
+                  PROJECT_NAME=${REPO_NAME##*/}
+                  echo "The repository name only is $PROJECT_NAME"
 
                   echo "docker push #############################"
-                  docker push ${{ vars.DOCKER_ID }}/${{ github.repository }}-backend
-                  docker push ${{ vars.DOCKER_ID }}/${{ github.repository }}-webserver
-                  docker push ${{ vars.DOCKER_ID }}/${{ github.repository }}-backend
+                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
+                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver
+                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
