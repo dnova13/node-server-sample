@@ -57,11 +57,11 @@ jobs:
 
                   REPO_NAME=${{ github.repository }}
                   PROJECT_NAME=${REPO_NAME##*/}
-                  echo "The repository name only is $PROJECT_NAME"
-
-                  echo "docker push #############################"
+                  echo "The project name is $PROJECT_NAME"
 
                   docker images
+
+                  docker build -t ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver-backup ./nginx_webserver
 
                   docker tag $PROJECT_NAME-backend ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend:latest
                   docker tag $PROJECT_NAME-webserver ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver:latest
@@ -70,4 +70,5 @@ jobs:
 
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver
+                  docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver-backup
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-mariadb
