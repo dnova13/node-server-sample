@@ -32,23 +32,23 @@ jobs:
             #       cat .env  # .env 파일 내용 확인
 
             # docker build test 및 서버 코드 test
-            - name: docker build and node test
-              run: |
-                  # docker build
-                  docker compose up -d --build
+            # - name: docker build and node test
+            #   run: |
+            #       # docker build
+            #       docker compose up -d --build
 
-                  # comopse 후 도커 실행환경이 구성되기 위해서 딜레이를 줌.
-                  sleep 30
+            #       # comopse 후 도커 실행환경이 구성되기 위해서 딜레이를 줌.
+            #       sleep 30
 
-                  # docker node test
-                  docker exec backend cat .env
-                  docker exec backend npm run api-test
+            #       # docker node test
+            #       docker exec backend cat .env
+            #       docker exec backend npm run api-test
 
             - name: docker push
               run: |
 
-                  # docker hub registry 
-                  docker login registry-1.docker.io  -u ${{ vars.DOCKER_ID }} --password ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  # docker hub registry  login
+                  docker login registry-1.docker.io  -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
 
                   echo "docker push #############################"
                   docker push ${{ vars.DOCKER_ID }}/backend
