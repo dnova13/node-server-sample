@@ -54,6 +54,9 @@ jobs:
                   echo "The repository name only is $PROJECT_NAME"
 
                   echo "docker push #############################"
+
+                  docker images
+
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-webserver
                   docker push ${{ vars.DOCKER_ID }}/$PROJECT_NAME-backend
