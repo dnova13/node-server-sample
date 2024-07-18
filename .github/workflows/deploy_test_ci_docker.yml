@@ -30,7 +30,6 @@ jobs:
             # - name: Use .env in subsequent steps
             #   run: |
             #       cat .env  # .env 파일 내용 확인
-
             # docker build test 및 서버 코드 test
             - name: docker build and node test
               run: |
@@ -43,11 +42,17 @@ jobs:
                   # docker node test
                   docker exec backend npm run api-test
 
+              # docker hub registry login
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  registry: registry-1.docker.io #docker hub registry
+                  username: ${{ vars.DOCKER_ID }}
+                  password: ${{ vars.DOCKER_ACCESS_TOKEN }}
+
             - name: docker push
               run: |
-
-                  # docker hub registry  login
-                  docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
+                  # docker login registry-1.docker.io -u ${{ vars.DOCKER_ID }} -p ${{ vars.DOCKER_ACCESS_TOKEN }}
 
                   REPO_NAME=${{ github.repository }}
                   PROJECT_NAME=${REPO_NAME##*/}
