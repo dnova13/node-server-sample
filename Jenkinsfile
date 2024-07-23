@@ -9,7 +9,7 @@ pipeline {
          stage('Docker Build and Test') {
             steps {
                 script {
-                    sh 'docker-compose up -d --build'
+                    sh 'docker compose up -d --build'
                     sleep 30
                     sh 'docker exec backend npm run api-test'
                 }
