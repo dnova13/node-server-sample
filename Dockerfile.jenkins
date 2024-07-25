@@ -1,0 +1,10 @@
+# Jenkins 에이전트 이미지 정의
+FROM jenkins/agent
+
+# 필요한 도구 설치
+RUN apt-get update && \
+    apt-get install -y \
+    nodejs \
+    git \
+    curl \
+    docker-compose
