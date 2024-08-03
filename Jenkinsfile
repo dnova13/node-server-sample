@@ -2,6 +2,7 @@ pipeline {
     agent {
         label 'agent-in-docker'
     }
+    // 젠킨스 파이프라인에서 트리거를 적용하기 위해서는 반드시 설정
     triggers {
         // 5분 마다 git 에 새로운 코드가 있으면 빌드를 실행함.
         pollSCM '*/5 * * * *'
@@ -25,6 +26,7 @@ pipeline {
             steps {
                 git branch: 'master',
                 url: 'https://github.com/dnova13/node-server-sample.git', 
+                // 레포지토리가 private 일경우, credentials 에 설정한 git 계정 정보를 설정
                 credentialsId:: 'git-signin'
 
             }
