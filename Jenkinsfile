@@ -27,7 +27,7 @@ pipeline {
                 git branch: 'master',
                 url: 'https://github.com/dnova13/node-server-sample.git', 
                 // 레포지토리가 private 일경우, credentials 에 설정한 git 계정 정보를 설정
-                credentialsId:: 'git-signin'
+                credentialsId: 'git-signin'
 
             }
             
