@@ -3,10 +3,11 @@ pipeline {
         label 'agent-in-docker'
     }
     // 젠킨스 파이프라인에서 트리거를 적용하기 위해서는 반드시 설정
-    triggers {
-        // 5분 마다 git 에 새로운 코드가 있으면 빌드를 실행함.
-        pollSCM '*/5 * * * *'
-    }
+    // triggers {
+    //     // 5분 마다 git 에 새로운 코드가 있으면 빌드를 실행함.
+    //     pollSCM '*/2 * * * *'
+    //     // pollSCM '*/5 * * * *'
+    // }
     environment {
         DB_HOST = credentials('DB_HOST')
         DB_NAME = credentials('DB_NAME')
