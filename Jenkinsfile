@@ -20,7 +20,9 @@ pipeline {
         stage('Git Clone') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/dnova13/node-server-sample.git'
+                url: 'https://github.com/dnova13/node-server-sample.git', 
+                credentialsId:: 'git-signin'
+
             }
             
             post {
