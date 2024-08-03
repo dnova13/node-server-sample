@@ -37,7 +37,8 @@ jobs:
                       sudo docker pull ${{ vars.DOCKER_ID }}/${{ vars.PROJECT_NAME }}-mariadb:latest
 
                       # 도커 이미지 조회
-                      sudo doeker images  
+                      sudo docker images  
+                      sudo docker network create platform-network
 
                       # backend-backup 실행
                       sudo docker run -d \
