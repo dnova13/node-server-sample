@@ -16,8 +16,8 @@ pipeline {
         DB_PORT = credentials('DB_PORT')
         TIME_ZONE = credentials('TIME_ZONE')
         DOCKER_ID = credentials('DOCKER_ID')
-
         DOCKER_ACC_KEY = credentials('DOCKER_ACC_KEY')
+        
         JENKINS_PROJECT="${env.JOB_NAME}"
         PROJECT_NAME="node-server-sample"
 
