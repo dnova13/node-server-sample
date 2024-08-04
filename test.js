@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 
-//
 // let key = '1231fsdfsdfsfsdf';
 
 // function encryptAES_CBC(plaintext, key) {
