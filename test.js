@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
 // let key = '1231fsdfsdfsfsdf';
-
+//
 // function encryptAES_CBC(plaintext, key) {
 //     // let key16 = Buffer.from(key); // 16바이트 길이의 키
 //     let iv = crypto.randomBytes(16); // 랜덤 IV 생성
